@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8">
+	<title>Sankey – Energiesystem Schweiz</title>
+	
+	<!-- Responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- ausgelagertes CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+	
+	<!-- d3 for sankey -->
+	<script src="https://d3js.org/d3.v7.min.js"></script>
+	<script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+	 
+	 <!-- Chart.js for line plots -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js"></script>
+
+	<link rel="stylesheet" href="NewSankey-2025-20-hami.css">
+	
+</head>
+
+<body>
+
+	<header>
+		<h1>Energieflüsse Energiesystem Schweiz</h1>
+	</header>
+
+	<main>
+		<!-- Tabs -->
+		<div class="tabs">
+		  <div class="tab active" data-tab="sankey">Sankey Diagram</div>
+		  <div class="tab" data-tab="lines">Line Plots</div>
+		</div>
+
+		<!-- Line plot tab content -->
+		<div id="lines" class="tab-content" style="width: 1200px; height: 720px;">
+		
+			<div class = "controls">
+				<label>
+				  <input type="checkbox" id="stackedCheckbox">
+				  Stacked line plot
+				</label>
+			</div>
+
+			<div class="controls accordion-controls">
+
+			  <div class="group">
+				<button class="group-title">Fuels → Boilers</button>
+				<div class="group-content">
+				  <label><input type="checkbox" value="OilToBoilers" checked> Oil → Boilers</label><br>
+				  <label><input type="checkbox" value="NaturalGasToBoilers" checked> Natural Gas → Boilers</label><br>
+				  <label><input type="checkbox" value="NaturalGasToCHP"> Natural Gas → CHP</label><br>
+				  <label><input type="checkbox" value="WoodToBoilers"> Wood → Boilers</label>
+				</div>
+			  </div>
+
+			  <div class="group">
+				<button class="group-title">Waste</button>
+				<div class="group-content">
+				  <label><input type="checkbox" value="WasteToKVA"> Waste → KVA</label>
+				</div>
+			  </div>
+
+			  <div class="group">
+				<button class="group-title">Ambient / Solar Thermal</button>
+				<div class="group-content">
+				  <label><input type="checkbox" value="AmbientToHeatPumps"> Ambient → Heat Pumps</label><br>
+				  <label><input type="checkbox" value="SolarThermalToHeat"> Solar Thermal → Heat</label>
+				</div>
+			  </div>
+
+			  <div class="group">
+				<button class="group-title">KVA & District Heat</button>
+				<div class="group-content">
+				  <label><input type="checkbox" value="KVAToDistrictHeat"> KVA → District Heat</label><br>
+				  <label><input type="checkbox" value="KVAToElectricity"> KVA → Electricity</label><br>
+				  <label><input type="checkbox" value="KVAToLoss"> KVA → Loss</label><br>
+				  <label><input type="checkbox" value="WoodToDistrictHeat"> Wood → District Heat</label><br>
+				  <label><input type="checkbox" value="HPTtoDistrictHeat"> HP Thermal → District Heat</label><br>
+				  <label><input type="checkbox" value="GasToDistrictHeat"> Gas → District Heat</label><br>
+				  <label><input type="checkbox" value="PowerPlantToDistrictHeat"> Power Plant → District Heat</label><br>
+				  <label><input type="checkbox" value="DistrictHeatToHeat"> District Heat → Heat</label>
+				</div>
+			  </div>
+
+			  <div class="group">
+				<button class="group-title">Electricity Generation</button>
+				<div class="group-content">
+				  <label><input type="checkbox" value="HydroRiverToElectricity"> Hydro River → Electricity</label><br>
+				  <label><input type="checkbox" value="HydroDamsToElectricity"> Hydro Dams → Electricity</label><br>
+				  <label><input type="checkbox" value="UraniumToPowerPlant"> Uranium → Power Plant</label><br>
+				  <label><input type="checkbox" value="PowerPlantToElectricity"> Power Plant → Electricity</label><br>
+				  <label><input type="checkbox" value="PowerPlantToLoss"> Power Plant → Loss</label><br>
+				  <label><input type="checkbox" value="WindToElectricity"> Wind → Electricity</label><br>
+				  <label><input type="checkbox" value="SolarToElectricity"> Photovoltaic → Electricity</label><br>
+				  <label><input type="checkbox" value="ImportToElectricity"> Import → Electricity</label>
+				</div>
+			  </div>
+
+			  <div class="group">
+				<button class="group-title">Mobility</button>
+				<div class="group-content">
+				  <label><input type="checkbox" value="GasolineToMobility"> Gasoline → Mobility</label><br>
+				  <label><input type="checkbox" value="DieselToMobility"> Diesel → Mobility</label><br>
+				  <label><input type="checkbox" value="JetToMobility"> Jet → Mobility</label><br>
+				  <label><input type="checkbox" value="MobilityToRoad"> Mobility → Road</label><br>
+				  <label><input type="checkbox" value="MobilityToRail"> Mobility → Rail</label><br>
+				  <label><input type="checkbox" value="MobilityToAviation"> Mobility → Aviation</label>
+				</div>
+			  </div>
+
+			  <div class="group">
+				<button class="group-title">Conversions</button>
+				<div class="group-content">
+				  <label><input type="checkbox" value="BoilersToHeat"> Boilers → Heat</label><br>
+				  <label><input type="checkbox" value="CHPToHeat"> CHP → Heat</label><br>
+				  <label><input type="checkbox" value="HPToHeat"> HP → Heat</label><br>
+				  <label><input type="checkbox" value="CHPToElectricity"> CHP → Electricity</label>
+				</div>
+			  </div>
+
+			  <div class="group">
+				<button class="group-title">Heat Outputs</button>
+				<div class="group-content">
+				  <label><input type="checkbox" value="HeatToSpace"> Heat → Space</label><br>
+				  <label><input type="checkbox" value="HeatToWater"> Heat → Water</label><br>
+				  <label><input type="checkbox" value="HeatToIndHeat"> Heat → Industrial Heat</label>
+				</div>
+			  </div>
+
+			  <div class="group">
+				<button class="group-title">Electricity Usage</button>
+				<div class="group-content">
+				  <label><input type="checkbox" value="ElectricityToHouseholds"> Electricity → Households</label><br>
+				  <label><input type="checkbox" value="ElectricityToIndustry"> Electricity → Industry</label><br>
+				  <label><input type="checkbox" value="ElectricityToServices"> Electricity → Services</label><br>
+				  <label><input type="checkbox" value="ElectricityToLoss"> Electricity → Loss</label><br>
+				  <label><input type="checkbox" value="ElectricityToHP"> Electricity → Heat Pumps</label><br>
+				  <label><input type="checkbox" value="ElectricityToHeat"> Electricity → Heat</label><br>
+				  <label><input type="checkbox" value="ElectricityToMobility"> Electricity → Mobility</label><br>
+				  <label><input type="checkbox" value="ElectricityToExport"> Electricity → Export</label>
+				</div>
+			  </div>
+
+			</div>
+
+
+
+			  <svg id="lineChart" ></svg>
+			  
+				<div style="margin-top:10px; margin-bottom:10px">
+					<button id="saveSVG">Save Chart as SVG</button>
+				</div>
+		  
+		</div>
+		<!-- Sankey tab content -->
+		<div id="sankey" class="tab-content active">
+			<h3>Sankey-Diagram – Energy System Switzerland</h3>
+			<p>all values in TWh/a </p>
+
+			<div class="controls">
+			  <label>
+				Year:
+				<select id="yearSelect"></select>
+			  </label>
+
+			  <button id="playButton">Play</button>
+			</div>
+			
+			<label style="display:block; margin-bottom:6px;">
+				<input type="checkbox" id="showValuesCheckbox">
+					Show values
+			</label>
+
+			
+
+			<div id="tooltip"></div>
+
+			<svg id="sankeyChart" width="1200" height="720"></svg>
+			
+			<div style="margin-top:10px; margin-bottom:10px">
+				<button id="saveSankeySVG">Save Chart as SVG</button>
+			</div>
+			
+		</div>
+
+	</main>
+
+	<footer>
+		<small>© 2025 Michel Haller</small>
+	</footer>
+ 
+	<script src="./js/data.js"></script>
+	<script src="./js/code.js"></script>
+
+</body>
+</html>

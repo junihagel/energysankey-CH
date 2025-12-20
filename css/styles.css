@@ -1,0 +1,190 @@
+/* Grundlayout */
+  body {
+	font-family: "Source Sans Pro", "Inter", Arial, sans-serif;
+	color: #2b2b2b;
+	background-color: #ffffff;
+	line-height: 1.5;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh; /* Ganzseitig */
+	}
+  main {
+	flex: 1; /* nimmt den restlichen Platz ein */
+	}
+  footer {
+	flex-shrink: 0;
+  }
+
+    /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 32px;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 24px;
+  }
+
+  .tab {
+    padding: 12px 0;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: #666;
+    position: relative;
+  }
+
+  .tab::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 3px;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+  }
+
+  .tab:hover {
+    color: #007a6f;
+  }
+
+  .tab.active {
+    color: #007a6f;
+  }
+
+  .tab.active::after {
+    background-color: #007a6f;
+  }
+
+  /* Tab-Inhalte */
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+    animation: fadeIn 0.2s ease-in;
+  }
+  
+    @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Controls */
+  .controls {
+    margin-bottom: 24px;
+  }
+
+
+/* Canvas / SVG Bereich */
+  canvas {
+    max-width: 100%;
+  }
+
+  svg {
+    background-color: #fafafa;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+
+	  .node rect {
+		stroke: #888;
+		stroke-width: 0.5px;
+	  }
+
+	  .node text {
+		font-size: 11px;
+		pointer-events: none;
+	  }
+
+	  .link {
+		fill: none;
+		stroke-opacity: 0.45;
+	  }
+
+	  .link:hover {
+		stroke-opacity: 0.8;
+	  }
+	  
+	  #tooltip {
+		  position: absolute;
+		  background-color: white;
+		  padding: 6px 10px;
+		  border: 1px solid #aaa;
+		  border-radius: 4px;
+		  pointer-events: none;
+		  opacity: 0;
+		  font-size: 12px;
+		  font-family: Arial, sans-serif;
+		  box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+		}
+		
+	  .link-value {
+			font-family: sans-serif;
+			background: rgba(255,255,255,0.7);
+		}
+		
+		.copyright {
+		  font-size: 11px;
+		  fill: #888;
+		  font-family: Arial, sans-serif;
+		  pointer-events: none;
+		}
+		
+		/* Controls wieder nebeneinander */
+.accordion-controls {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* Jede Gruppe wie vorher eine Spalte */
+.group {
+  width: 260px;           /* fix wie Spalte */
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* Titel (klickbar) */
+.group-title {
+  width: 100%;
+  padding: 12px 14px;
+  background: #f7f7f7;
+  border: none;
+  font-weight: 600;
+  color: #007a6f;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Pfeil */
+.group-title::after {
+  content: "▾";
+  position: absolute;
+  right: 14px;
+  transition: transform 0.2s ease;
+}
+
+.group.active .group-title::after {
+  transform: rotate(180deg);
+}
+
+/* Inhalt */
+.group-content {
+  display: none;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.group.active .group-content {
+  display: block;
+  
+
+}
