@@ -33,8 +33,40 @@
 		  <div class="tab" data-tab="lines">Line Plots</div>
 		</div>
 
+		
+		<!-- Sankey tab content -->
+		<div id="sankey" class="tab-content active">
+			<h3>Sankey-Diagram – Energy System Switzerland</h3>
+			<p>all values in TWh/a </p>
+
+			<div class="controls">
+			  <label>
+				Year:
+				<select id="yearSelect"></select>
+			  </label>
+
+			  <button id="playButton">Play</button>
+			</div>
+			
+			<label style="display:block; margin-bottom:6px;">
+				<input type="checkbox" id="showValuesCheckbox">
+					Show values
+			</label>
+
+			
+
+			<div id="tooltip"></div>
+
+			<svg id="sankeyChart" width="1200" height="720"></svg>
+			
+			<div style="margin-top:10px; margin-bottom:10px">
+				<button id="saveSankeySVG">Save Chart as SVG</button>
+			</div>
+			
+		</div>
+
 		<!-- Line plot tab content -->
-		<div id="lines" class="tab-content" style="width: 1200px; height: 1000px;">
+		<div id="lines" class="tab-content" style="width: 1200px; height: 1200px;">
 		
 			<div class = "controls">
 				<label>
@@ -154,36 +186,6 @@
 				</div>
 		  
 		</div>
-		<!-- Sankey tab content -->
-		<div id="sankey" class="tab-content active">
-			<h3>Sankey-Diagram – Energy System Switzerland</h3>
-			<p>all values in TWh/a </p>
-
-			<div class="controls">
-			  <label>
-				Year:
-				<select id="yearSelect"></select>
-			  </label>
-
-			  <button id="playButton">Play</button>
-			</div>
-			
-			<label style="display:block; margin-bottom:6px;">
-				<input type="checkbox" id="showValuesCheckbox">
-					Show values
-			</label>
-
-			
-
-			<div id="tooltip"></div>
-
-			<svg id="sankeyChart" width="1200" height="720"></svg>
-			
-			<div style="margin-top:10px; margin-bottom:10px">
-				<button id="saveSankeySVG">Save Chart as SVG</button>
-			</div>
-			
-		</div>
 
 	</main>
 
@@ -201,6 +203,7 @@
 
 </body>
 </html>
+
 
 
 
