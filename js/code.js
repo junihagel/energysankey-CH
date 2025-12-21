@@ -48,7 +48,7 @@ const conversionOrder = [
   "Boilers",
   "CHP",
   "Electricity",
-  "DHN",
+  "District Heat",
   "Heat Pumps",
   "Heat"
 ];
@@ -655,3 +655,4 @@ document.getElementById("saveSankeySVG").addEventListener("click", function() {
       title.parentElement.classList.toggle('active');
     });
   });
+
