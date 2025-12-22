@@ -94,6 +94,10 @@
     border-radius: 6px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   }
+    .sankey-title {
+      text-anchor: middle;
+      font-size: 18px;
+    }
 
 	  .node rect {
 		stroke: #888;
@@ -101,7 +105,7 @@
 	  }
 
 	  .node text {
-		font-size: 11px;
+		font-size: 14px;
 		pointer-events: none;
 	  }
 
@@ -130,6 +134,7 @@
 	  .link-value {
 			font-family: sans-serif;
 			background: rgba(255,255,255,0.7);
+      font-size: 10px;
 		}
 		
 		.copyright {

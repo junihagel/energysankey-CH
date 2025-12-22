@@ -1,5 +1,5 @@
 /********************
- * TAB LOGIC
+ 1 TAB LOGIC
  ********************/
 const tabs = document.querySelectorAll('.tab');
 const contents = document.querySelectorAll('.tab-content');
@@ -15,15 +15,8 @@ tabs.forEach(tab => {
 });
 
 
-
-
-
-
-
-
-
 /* =========================================================
-   4B) SORTIERUNGEN
+   2 SORTING
    ========================================================= */
 const inputOrder = [
   "Oil",
@@ -72,7 +65,7 @@ const outputRank = new Map(outputOrder.map((d,i)=>[d,i]));
 
 
 /* =========================================================
-   5) LINKS FÜR EIN JAHR
+   3) LINKS Get Link-Values for a specific year
    ========================================================= */
 function linksForYear(year) {
   const i = years.indexOf(year);
@@ -84,7 +77,7 @@ function linksForYear(year) {
 }
 
 /* =========================================================
-   6) DROPDOWN AUTO
+   4) DROPDOWN For Years selection
    ========================================================= */
 const yearSelect = d3.select("#yearSelect");
 
@@ -97,14 +90,12 @@ yearSelect.selectAll("option")
 yearSelect.property("value", years[years.length - 1]);
 
 /* =========================================================
-   7) SANKEY
+   5) SANKEY
    ========================================================= */
 const svg = d3.select("#sankeyChart");
 const width = +svg.attr("width");
 const height = +svg.attr("height");
 const tooltip = d3.select("#tooltip");
-
-
 
 const sankey = d3.sankey()
   .nodeId(d => d.name)
@@ -144,103 +135,113 @@ d3.select("#showValuesCheckbox")
 
 function draw(year) {
 
+  const titleHeight = 30; // space reserved for the title
+  const sankeyHeight = height - titleHeight - 15; // 15 for the footer
+
   svg.selectAll("*").remove();
+
+  // ===== Title =====
+  svg.append("text")
+    .attr("class", "sankey-title")
+    .attr("x", width / 2)
+    .attr("y", 20)
+    .text(`Energy Flows of Switzerland in TWh/a – Year ${year}`);
+
+  // ===== Group for Sankey (shifted down) =====
+  const sankeyGroup = svg.append("g")
+    .attr("transform", `translate(0, ${titleHeight})`);
+
+  sankey
+    .extent([[0, 0], [width, sankeyHeight]]);
 
   const graph = sankey({
     nodes: nodes.map(d => ({ ...d })),
     links: linksForYear(year)
   });
-  
 
-  
-  
- // Verschiebung von Knoten:
+  // Verschiebung von Knoten:
   graph.nodes.forEach(n => {
-   // Loss leicht nach links
+    // Loss leicht nach links
     if (n.name === "Loss") {
       n.x0 -= 150;
       n.x1 -= 150;
     }
-	if (n.name === "Heat Pumps") {
-	  let dy = 20;
+
+    if (n.name === "Heat Pumps") {
+      let dy = 20;
       n.y0 -= dy;
       n.y1 -= dy;
-	  
-	  n.sourceLinks.forEach(l => {
-		l.y0 -= dy;
-	  });
 
-	  n.targetLinks.forEach(l => {
-		l.y1 -= dy;
+      n.sourceLinks.forEach(l => {
+        l.y0 -= dy;
+      });
+
+      n.targetLinks.forEach(l => {
+        l.y1 -= dy;
       });
     }
-	
-	if (n.name === "District Heat") {
-	  let dy = 20;
+
+    if (n.name === "District Heat") {
+      let dy = 20;
       n.y0 += dy;
       n.y1 += dy;
-	  
-	  n.sourceLinks.forEach(l => {
-		l.y0 += dy;
-	  });
 
-	  n.targetLinks.forEach(l => {
-		l.y1 += dy;
+      n.sourceLinks.forEach(l => {
+        l.y0 += dy;
+      });
+
+      n.targetLinks.forEach(l => {
+        l.y1 += dy;
       });
     }
   });
 
-  svg.append("g")
+  sankeyGroup.append("g")
     .selectAll("path")
     .data(graph.links)
     .join("path")
     .attr("class", "link")
     .attr("d", d3.sankeyLinkHorizontal())
-    .attr("stroke", d => d.source.linkColor ?? "rgba(150,150,150,0.4)") // Farbgebung
-	.attr("fill", "none")
+    .attr("stroke", d => d.source.linkColor ?? "rgba(150,150,150,0.4)")
+    .attr("fill", "none")
     .attr("stroke-width", d => Math.max(1, d.width))
-		.on("mouseover", function (event, d) {
+    .on("mouseover", function (event, d) {
+      if (!showValues) {
+        tooltip
+          .style("opacity", 0.9)
+          .html(d.value.toLocaleString())
+          .style("left", (event.pageX + 10) + "px")
+          .style("top", (event.pageY + 10) + "px");
+      }
+    })
+    .on("mousemove", function (event) {
+      if (!showValues) {
+        tooltip
+          .style("left", (event.pageX + 10) + "px")
+          .style("top", (event.pageY + 10) + "px");
+      }
+    })
+    .on("mouseout", function () {
+      tooltip.style("opacity", 0);
+    });
 
-		  // Tooltip NUR wenn showValues AUS
-		  if (!showValues) {
-			tooltip
-			  .style("opacity", 0.9)
-			  .html(d.value.toLocaleString())
-			  .style("left", (event.pageX + 10) + "px")
-			  .style("top", (event.pageY + 10) + "px");
-		  }
-		})
-		.on("mousemove", function (event) {
-		  if (!showValues) {
-			tooltip
-			  .style("left", (event.pageX + 10) + "px")
-			  .style("top", (event.pageY + 10) + "px");
-		  }
-		})
-		.on("mouseout", function () {
-		  tooltip.style("opacity", 0);
-		});
+  const linkLabels = sankeyGroup.append("g")
+    .attr("class", "link-labels")
+    .selectAll("text")
+    .data(graph.links)
+    .join("text")
+    .attr("class", "link-value")
+    .attr("x", d => (d.source.x1 + d.target.x0) / 2)
+    .attr("y", d => (d.y0 + d.y1) / 2)
+    .attr("dy", "0.35em")
+    .attr("text-anchor", "middle")
+    .text(d => d.value.toLocaleString())
+    .style("font-size", "12px")
+    .style("fill", "#333")
+    .style("pointer-events", "none")
+    .style("opacity", showValues ? 1 : 0);
 
-
-	const linkLabels = svg.append("g")
-	  .attr("class", "link-labels")
-	  .selectAll("text")
-	  .data(graph.links)
-	  .join("text")
-	  .attr("class", "link-value")
-	  .attr("x", d => (d.source.x1 + d.target.x0) / 2)
-	  .attr("y", d => (d.y0 + d.y1) / 2)
-	  .attr("dy", "0.35em")
-	  .attr("text-anchor", "middle")
-	  .text(d => d.value.toLocaleString())
-	  .style("font-size", "11px")
-	  .style("fill", "#333")
-	  .style("pointer-events", "none")
-	  .style("opacity", showValues ? 1 : 0);
-
-	
-
-  const node = svg.append("g")
+  const node = sankeyGroup.append("g")
     .selectAll(".node")
     .data(graph.nodes)
     .join("g")
@@ -251,7 +252,7 @@ function draw(year) {
     .attr("y", d => d.y0)
     .attr("height", d => d.y1 - d.y0)
     .attr("width", d => d.x1 - d.x0)
-    .attr("fill", d => d.color ?? "#ccc"); // Farbe
+    .attr("fill", d => d.color ?? "#ccc");
 
   node.append("text")
     .attr("x", d => d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6)
@@ -259,15 +260,15 @@ function draw(year) {
     .attr("dy", "0.35em")
     .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
     .text(d => d.name);
-	
-	// copyright information
-	svg.append("text")
-	  .attr("class", "copyright")
-	  .attr("x", width - 10)
-	  .attr("y", height - 2)
-	  .attr("text-anchor", "end")
-	  .attr("dominant-baseline", "ideographic")
-	  .text("(c) by Michel Haller");
+
+  // ===== copyright information =====
+  svg.append("text")
+    .attr("class", "copyright")
+    .attr("x", width - 10)
+    .attr("y", height - 2)
+    .attr("text-anchor", "end")
+    .attr("dominant-baseline", "ideographic")
+    .text("(c) by Michel Haller");
 }
 
 

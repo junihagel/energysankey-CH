@@ -36,8 +36,6 @@
 		
 		<!-- Sankey tab content -->
 		<div id="sankey" class="tab-content active">
-			<h3>Sankey-Diagram – Energy System Switzerland</h3>
-			<p>all values in TWh/a </p>
 
 			<div class="controls">
 			  <label>
@@ -45,7 +43,7 @@
 				<select id="yearSelect"></select>
 			  </label>
 
-			  <button id="playButton">Play</button>
+			  <button id="playButton">Play all years</button>
 			</div>
 			
 			<label style="display:block; margin-bottom:6px;">
@@ -57,7 +55,8 @@
 
 			<div id="tooltip"></div>
 
-			<svg id="sankeyChart" width="1200" height="720"></svg>
+			<svg id="sankeyChart" width="1200" height="720">
+			</svg>
 			
 			<div style="margin-top:10px; margin-bottom:10px">
 				<button id="saveSankeySVG">Save Chart as SVG</button>
