@@ -38,20 +38,24 @@
 		<div id="sankey" class="tab-content active">
 
 			<div class="controls">
-			  <label>
-				Year:
-				<select id="yearSelect"></select>
-			  </label>
+			  	<label>
+					Year:
+					<select id="yearSelect"></select>
+			  	</label>
 
-			  <button id="playButton">Play all years</button>
+			  	<button id="playButton" style="margin-right: 20px;">Play all years</button>
+				<label style="display: inline-block; margin-right: 20px;">
+					<input type="checkbox" id="showValuesCheckbox">
+						Show values
+				</label>
+		
+				<label style="display: inline-block;">
+					<input type="checkbox" id="netImportExport">
+						Net import/export
+				</label>
 			</div>
-			
-			<label style="display:block; margin-bottom:6px;">
-				<input type="checkbox" id="showValuesCheckbox">
-					Show values
-			</label>
 
-			
+
 
 			<div id="tooltip"></div>
 

@@ -135,10 +135,26 @@ d3.select("#showValuesCheckbox")
 
 function draw(year) {
 
-  const titleHeight = 30; // space reserved for the title
+  const titleHeight = 50; // space reserved for the title
   const sankeyHeight = height - titleHeight - 15; // 15 for the footer
+  const netMode = document.getElementById("netImportExport").checked;
 
   svg.selectAll("*").remove();
+
+  // ===== Left and right background bar for export / import =====
+  svg.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)          
+    .attr("width", 50)
+    .attr("height", height)
+    .attr("fill", "#f9f2f2ff"); 
+
+    svg.append("rect")
+    .attr("x", width-50)
+    .attr("y", 0)          
+    .attr("width", 50)
+    .attr("height", height)
+    .attr("fill", "#f9f2f2ff"); 
 
   // ===== Title =====
   svg.append("text")
@@ -147,6 +163,19 @@ function draw(year) {
     .attr("y", 20)
     .text(`Energy Flows of Switzerland in TWh/a – Year ${year}`);
 
+    // ===== Import and Export Labels=====
+  svg.append("text")
+    .attr("class", "export-import")
+    .attr("x", 5)
+    .attr("y", 20)
+    .text(`Import`);
+
+  svg.append("text")
+    .attr("class", "export-import")
+    .attr("x", width - 48)
+    .attr("y", 20)
+    .text(`Export`);
+
   // ===== Group for Sankey (shifted down) =====
   const sankeyGroup = svg.append("g")
     .attr("transform", `translate(0, ${titleHeight})`);
@@ -154,19 +183,29 @@ function draw(year) {
   sankey
     .extent([[0, 0], [width, sankeyHeight]]);
 
+
+  
+
+  let links = linksForYear(year);
+
+  if (netMode) {
+    links = applyNetImportExport(links);
+  }
+
+  
+
+
   const graph = sankey({
     nodes: nodes.map(d => ({ ...d })),
-    links: linksForYear(year)
+    links: links
   });
 
   // Verschiebung von Knoten:
   graph.nodes.forEach(n => {
-    // Loss leicht nach links
-    if (n.name === "Loss") {
-      n.x0 -= 150;
-      n.x1 -= 150;
-    }
-
+    // correct horizontal position
+    n.x0 += n.xshift;
+    n.x1 += n.xshift;
+    // correct vertical positions
     if (n.name === "Heat Pumps") {
       let dy = 20;
       n.y0 -= dy;
@@ -194,7 +233,9 @@ function draw(year) {
         l.y1 += dy;
       });
     }
+
   });
+
 
   sankeyGroup.append("g")
     .selectAll("path")
@@ -261,6 +302,25 @@ function draw(year) {
     .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
     .text(d => d.name);
 
+  // hide nodes of import / export if the value is 0
+graph.nodes.forEach(n => {
+    if (n.name === "Import" || n.name === "Export") {
+        const totalValue = d3.sum(n.sourceLinks, l => l.value) + d3.sum(n.targetLinks, l => l.value);
+        const hide = netMode && totalValue === 0;
+
+        // Select the node group and hide its rect and text
+        const nodeGroup = sankeyGroup.selectAll(".node")
+            .filter(d => d.name === n.name);
+        nodeGroup.select("rect").style("display", hide ? "none" : "");
+        nodeGroup.select("text").style("display", hide ? "none" : "");
+
+        // Hide all connected links
+        sankeyGroup.selectAll(".link")
+            .filter(l => l.source.name === n.name || l.target.name === n.name)
+            .style("display", hide ? "none" : "");
+    }
+});
+
   // ===== copyright information =====
   svg.append("text")
     .attr("class", "copyright")
@@ -271,6 +331,39 @@ function draw(year) {
     .text("(c) by Michel Haller");
 }
 
+function applyNetImportExport(links) {
+  let importSum = 0;
+  let exportSum = 0;
+
+  // Identify import/export links
+  links.forEach(l => {
+    if (l.source === "Import") importSum += l.value;
+    if (l.target === "Export") exportSum += l.value;
+  });
+
+  const net = importSum - exportSum;
+
+  return links.map(l => {
+    // Import links
+    if (l.source === "Import") {
+      return {
+        ...l,
+        value: net > 0 ? l.value * (net / importSum) : 0
+      };
+    }
+
+    // Export links
+    if (l.target === "Export") {
+      return {
+        ...l,
+        value: net < 0 ? l.value * (-net / exportSum) : 0
+      };
+    }
+
+    // All other links unchanged
+    return l;
+  });
+}
 
 
 /* =========================================================
@@ -312,10 +405,17 @@ playButton.on("click", () => {
         clearInterval(playInterval);
         playInterval = null;
         playButton.text("Play");
+        currentYearIndex--;
       }
     }, 500); // Halbsekunde
   }
 });
+
+// event listener for redraw after netImportExportChange
+d3.select("#netImportExport")
+  .on("change", () => {
+    draw(years[currentYearIndex]);   
+  });
 
 /*******************************************************
  * 10) D3 Line Chart and Update of Line Chart
@@ -610,14 +710,19 @@ function saveGraphSVG(chartName){
   const svgEl = document.getElementById(chartName);
   
   // Inline styles for text
-  d3.select(svgEl).selectAll("text")
-    .attr("font-family", "Arial, sans-serif")
-    .attr("font-size", "14px")
-    .attr("fill", "black");
+  // d3.select(svgEl).selectAll("text")
+    // .attr("font-family", "Arial, sans-serif")
+    // .attr("font-size", "14px")
+    // .attr("fill", "black");
+
+    const clone = svgEl.cloneNode(true);
+
+  // 3. Inline computed styles from live SVG → clone
+  inlineComputedStyles(svgEl, clone);
   
   // Serialize SVG
   const serializer = new XMLSerializer();
-  let source = serializer.serializeToString(svgEl);
+  let source = serializer.serializeToString(clone);
 
   // Add namespace if missing (important for standalone SVG)
   if(!source.match(/^<svg[^>]+xmlns="http:\/\/www\.w3\.org\/2000\/svg"/)){
@@ -641,6 +746,42 @@ function saveGraphSVG(chartName){
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 };
+
+// extract style properties from csss to include in svg for download
+function inlineComputedStyles(sourceSVG, targetSVG) {
+  const sourceElements = sourceSVG.querySelectorAll("*");
+  const targetElements = targetSVG.querySelectorAll("*");
+
+  const styleProps = [
+    "fill",
+    "stroke",
+    "stroke-width",
+    "opacity",
+    "font-family",
+    "font-size",
+    "font-weight",
+    "font-style",
+    "text-anchor",
+    "dominant-baseline"
+  ];
+
+  sourceElements.forEach((sourceEl, i) => {
+    const computed = window.getComputedStyle(sourceEl);
+    const targetEl = targetElements[i];
+
+    let style = "";
+    styleProps.forEach(prop => {
+      const value = computed.getPropertyValue(prop);
+      if (value && value !== "normal" && value !== "none") {
+        style += `${prop}:${value};`;
+      }
+    });
+
+    if (style) {
+      targetEl.setAttribute("style", style);
+    }
+  });
+}
 
 // Correctly attach the listener (call the function!)
 document.getElementById("saveSVG").addEventListener("click", function() {

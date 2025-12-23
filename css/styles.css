@@ -109,6 +109,10 @@
 		pointer-events: none;
 	  }
 
+    .export-import {
+      font-size: 14px;
+    }
+
 	  .link {
 		fill: none;
 		stroke-opacity: 0.45;

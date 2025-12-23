@@ -1,69 +1,71 @@
 /* =========================================================
    2) KNOTEN (ALLE!) Mit Farben sowie outgoing Pfad-Farben
    ========================================================= */
+   const xshiftlocal = 60;
+   
 const nodes = [
   // Fossile Energieträger – dunkelbraun
-  { name: "Oil",         color: "#4b2e2b", linkColor: "rgba(75, 46, 43, 0.45)" }, // dunkelbraun → heller
-  { name: "Natural Gas", color: "#4b2e2b", linkColor: "rgba(75, 46, 43, 0.45)" }, // dunkelbraun → heller
+  { name: "Oil",         color: "#4b2e2b", linkColor: "rgba(75, 46, 43, 0.45)", xshift: 0}, // dunkelbraun → heller
+  { name: "Natural Gas", color: "#4b2e2b", linkColor: "rgba(75, 46, 43, 0.45)", xshift: 0}, // dunkelbraun → heller
 
   // Biomasse & Abfall
-  { name: "Wood",  color: "#2e7d32", linkColor: "rgba(46, 125, 50, 0.45)" }, // grün → heller
-  { name: "Waste", color: "#9e9e9e", linkColor: "rgba(158, 158, 158, 0.45)" }, // grau → heller
+  { name: "Wood",  color: "#2e7d32", linkColor: "rgba(46, 125, 50, 0.45)", xshift: xshiftlocal}, // grün → heller
+  { name: "Waste", color: "#9e9e9e", linkColor: "rgba(158, 158, 158, 0.45)", xshift: xshiftlocal}, // grau → heller
 
   // Ambient Heat & Solar Thermal – gelb
-  { name: "Ambient",       color: "#f2c300", linkColor: "rgba(242, 195, 0, 0.45)" }, // gelb → heller
-  { name: "Solar Thermal", color: "#f2c300", linkColor: "rgba(242, 195, 0, 0.45)" }, // gelb → heller
+  { name: "Ambient",       color: "#f2c300", linkColor: "rgba(242, 195, 0, 0.45)", xshift: xshiftlocal}, // gelb → heller
+  { name: "Solar Thermal", color: "#f2c300", linkColor: "rgba(242, 195, 0, 0.45)", xshift: xshiftlocal}, // gelb → heller
 
   // Nuklear – pink
-  { name: "Uranium", color: "#e377c2", linkColor: "rgba(227, 119, 194, 0.45)" }, // pink → heller
+  { name: "Uranium", color: "#e377c2", linkColor: "rgba(227, 119, 194, 0.45)", xshift: 0}, // pink → heller
 
   // Electricity generation & import – blau / grau
-  { name: "Hydro River",  color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" }, // blau → heller
-  { name: "Hydro Dams",   color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" }, // blau → heller
-  { name: "Photovoltaic", color: "#f2c300", linkColor: "rgba(242, 195, 0, 0.45)" }, // gelb → heller
-  { name: "Wind",         color: "#8fd3f4", linkColor: "rgba(143, 211, 244, 0.45)" }, // hellblau → heller
-  { name: "Import",       color: "#bdbdbd", linkColor: "rgba(189, 189, 189, 0.45)" }, // hellgrau → heller
+  { name: "Hydro River",  color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)", xshift: xshiftlocal}, // blau → heller
+  { name: "Hydro Dams",   color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" , xshift: xshiftlocal}, // blau → heller
+  { name: "Photovoltaic", color: "#f2c300", linkColor: "rgba(242, 195, 0, 0.45)" , xshift: xshiftlocal}, // gelb → heller
+  { name: "Wind",         color: "#8fd3f4", linkColor: "rgba(143, 211, 244, 0.45)" , xshift: xshiftlocal}, // hellblau → heller
+  { name: "Import",       color: "#bdbdbd", linkColor: "rgba(189, 189, 189, 0.45)" , xshift: 0}, // hellgrau → heller
 
   // Fuels for mobility – braun
-  { name: "Gasoline", color: "#8b5a2b", linkColor: "rgba(139, 90, 43, 0.45)" }, // braun → heller
-  { name: "Diesel",   color: "#8b5a2b", linkColor: "rgba(139, 90, 43, 0.45)" }, // braun → heller
-  { name: "Jet fuel", color: "#8b5a2b", linkColor: "rgba(139, 90, 43, 0.45)" }, // braun → heller
+  { name: "Gasoline", color: "#8b5a2b", linkColor: "rgba(139, 90, 43, 0.45)" , xshift: 0}, // braun → heller
+  { name: "Diesel",   color: "#8b5a2b", linkColor: "rgba(139, 90, 43, 0.45)" , xshift: 0}, // braun → heller
+  { name: "Jet fuel", color: "#8b5a2b", linkColor: "rgba(139, 90, 43, 0.45)" , xshift: 0}, // braun → heller
 
   // Wärmeerzeugung – rot
-  { name: "Boilers", color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" }, // rot → heller
-  { name: "KVA",     color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" }, // rot → heller
-  { name: "CHP",     color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" }, // rot → heller
+  { name: "Boilers", color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" , xshift: 60}, // rot → heller
+  { name: "KVA",     color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" , xshift: 60}, // rot → heller
+  { name: "CHP",     color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" , xshift: 60}, // rot → heller
 
   // Power Plant & Electricity – blau
-  { name: "Power Plant", color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" }, // blau → heller
-  { name: "Electricity", color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" }, // blau → heller
+  { name: "Power Plant", color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" , xshift: 0}, // blau → heller
+  { name: "Electricity", color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" , xshift: 20}, // blau → heller
 
   // Heat pump & mobility
-  { name: "Heat Pumps", color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" }, // rot → heller
-  { name: "Mobility",   color: "#8b5a2b", linkColor: "rgba(139, 90, 43, 0.45)" }, // braun → heller
+  { name: "Heat Pumps", color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" , xshift: 0}, // rot → heller
+  { name: "Mobility",   color: "#8b5a2b", linkColor: "rgba(139, 90, 43, 0.45)" , xshift: +150}, // braun → heller
 
   // District heat / heat / loss
-  { name: "District Heat", color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" }, // rot → heller
-  { name: "Heat",          color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" }, // rot → heller
-  { name: "Loss",          color: "#cccccc", linkColor: "rgba(204, 204, 204, 0.45)" }, // grau → heller
+  { name: "District Heat", color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" , xshift: 0}, // rot → heller
+  { name: "Heat",          color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" , xshift: -100}, // rot → heller
+  { name: "Loss",          color: "#cccccc", linkColor: "rgba(204, 204, 204, 0.45)" , xshift: -150}, // grau → heller
 
   // Outputs
-  { name: "Space Heat", color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" }, // rot → heller
-  { name: "Hot Water",  color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" }, // rot → heller
-  { name: "Ind Heat",   color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" }, // rot → heller
+  { name: "Space Heat", color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" , xshift: -xshiftlocal}, // rot → heller
+  { name: "Hot Water",  color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" , xshift: -xshiftlocal}, // rot → heller
+  { name: "Ind Heat",   color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" , xshift: -xshiftlocal}, // rot → heller
 
   // Export
-  { name: "Export", color: "#bdbdbd", linkColor: "rgba(189, 189, 189, 0.45)" }, // hellgrau → heller
+  { name: "Export", color: "#bdbdbd", linkColor: "rgba(189, 189, 189, 0.45)" , xshift: 0}, // hellgrau → heller
 
   // End consumers – blau
-  { name: "Households", color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" }, // blau → heller
-  { name: "Services",   color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" }, // blau → heller
-  { name: "Industry",   color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" }, // blau → heller
+  { name: "Households", color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" , xshift: -xshiftlocal}, // blau → heller
+  { name: "Services",   color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" , xshift: -xshiftlocal}, // blau → heller
+  { name: "Industry",   color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" , xshift: -xshiftlocal}, // blau → heller
 
   // Transport modes – hellbraun
-  { name: "Road",     color: "#D2B48C", linkColor: "rgba(210, 180, 140, 0.45)" }, // hellbraun → heller
-  { name: "Rail",     color: "#D2B48C", linkColor: "rgba(210, 180, 140, 0.45)" }, // hellbraun → heller
-  { name: "Aviation", color: "#D2B48C", linkColor: "rgba(210, 180, 140, 0.45)" }  // hellbraun → heller
+  { name: "Road",     color: "#D2B48C", linkColor: "rgba(210, 180, 140, 0.45)" , xshift: -xshiftlocal}, // hellbraun → heller
+  { name: "Rail",     color: "#D2B48C", linkColor: "rgba(210, 180, 140, 0.45)" , xshift: -xshiftlocal}, // hellbraun → heller
+  { name: "Aviation", color: "#D2B48C", linkColor: "rgba(210, 180, 140, 0.45)" , xshift: -xshiftlocal/2}  // hellbraun → heller
 ];
 
 
