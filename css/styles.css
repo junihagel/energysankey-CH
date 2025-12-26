@@ -15,11 +15,11 @@
 	flex-shrink: 0;
   }
 
-.data-sources {
-  font-size: 0.85em;
-  color: #555;
-  margin-top: 20px;
-}
+  .data-sources {
+    font-size: 0.85em;
+    color: #555;
+    margin-top: 20px;
+  }
 
     /* Tabs */
   .tabs {
@@ -90,10 +90,13 @@
   }
 
   svg {
+    width: 100%;
+    height: auto; 
     background-color: #fafafa;
     border-radius: 6px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   }
+
     .sankey-title {
       text-anchor: middle;
       font-size: 18px;

@@ -133,8 +133,20 @@ d3.select("#showValuesCheckbox")
     draw(+yearSelect.property("value")); // Sankey neu zeichnen
   });
 
+
+// here starts the block that draws the sankey inside the viewbox
+const WIDTH = 1200;
+const HEIGHT = 720;
+
+svg
+  .attr("viewBox", `0 0 ${WIDTH} ${HEIGHT}`)
+  .attr("preserveAspectRatio", "xMidYMid meet");
+
 function draw(year) {
 
+  
+  const width = WIDTH;
+  const height = HEIGHT;
   const titleHeight = 50; // space reserved for the title
   const sankeyHeight = height - titleHeight - 15; // 15 for the footer
   const netMode = document.getElementById("netImportExport").checked;
@@ -236,7 +248,6 @@ function draw(year) {
 
   });
 
-
   sankeyGroup.append("g")
     .selectAll("path")
     .data(graph.links)
@@ -303,7 +314,7 @@ function draw(year) {
     .text(d => d.name);
 
   // hide nodes of import / export if the value is 0
-graph.nodes.forEach(n => {
+  graph.nodes.forEach(n => {
     if (n.name === "Import" || n.name === "Export") {
         const totalValue = d3.sum(n.sourceLinks, l => l.value) + d3.sum(n.targetLinks, l => l.value);
         const hide = netMode && totalValue === 0;
@@ -319,7 +330,7 @@ graph.nodes.forEach(n => {
             .filter(l => l.source.name === n.name || l.target.name === n.name)
             .style("display", hide ? "none" : "");
     }
-});
+  });
 
   // ===== copyright information =====
   svg.append("text")
@@ -329,6 +340,7 @@ graph.nodes.forEach(n => {
     .attr("text-anchor", "end")
     .attr("dominant-baseline", "ideographic")
     .text("(c) by Michel Haller");
+
 }
 
 function applyNetImportExport(links) {
@@ -423,12 +435,17 @@ d3.select("#netImportExport")
  
 // Dimensions and margins
 const margin = { top: 30, right: 80, bottom: 50, left: 60 };
-const lchartwidth = 1200 - margin.left - margin.right;
-const lchartheight = 720 - margin.top - margin.bottom;
+const lchartwidth = WIDTH - margin.left - margin.right;
+const lchartheight = HEIGHT - margin.top - margin.bottom;
 
-const svgLine = d3.select("#lineChart")
-  .attr("width", lchartwidth  + margin.left + margin.right)
-  .attr("height", lchartheight  + margin.top + margin.bottom)
+
+const svgRoot = d3.select("#lineChart");
+
+svgRoot
+  .attr("viewBox", `0 0 ${WIDTH} ${HEIGHT}`)
+  .attr("preserveAspectRatio", "xMidYMid meet");
+
+const svgLine = svgRoot
   .append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
