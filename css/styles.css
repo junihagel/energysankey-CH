@@ -161,7 +161,7 @@
 
 /* Jede Gruppe wie vorher eine Spalte */
 .group {
-  width: 260px;           /* fix wie Spalte */
+  width: 200px;           /* fix wie Spalte */
   border: 1px solid #e5e5e5;
   border-radius: 6px;
   background: #ffffff;
@@ -171,7 +171,7 @@
 /* Titel (klickbar) */
 .group-title {
   width: 100%;
-  padding: 12px 14px;
+  padding: 6px 7px;
   background: #f7f7f7;
   border: none;
   font-weight: 600;
@@ -197,7 +197,7 @@
 .group-content {
   display: none;
   padding: 6px 7px;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.5;
 }
 
