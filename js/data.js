@@ -24,7 +24,7 @@ const nodes = [
   { name: "Hydro Dams",   color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" , xshift: xshiftlocal}, // blau → heller
   { name: "Photovoltaic", color: "#f2c300", linkColor: "rgba(242, 195, 0, 0.45)" , xshift: xshiftlocal}, // gelb → heller
   { name: "Wind",         color: "#8fd3f4", linkColor: "rgba(143, 211, 244, 0.45)" , xshift: xshiftlocal}, // hellblau → heller
-  { name: "Import",       color: "#bdbdbd", linkColor: "rgba(189, 189, 189, 0.45)" , xshift: 0}, // hellgrau → heller
+  { name: "Electr. Import",       color: "#bdbdbd", linkColor: "rgba(189, 189, 189, 0.45)" , xshift: 0}, // hellgrau → heller
 
   // Fuels for mobility – braun
   { name: "Gasoline", color: "#8b5a2b", linkColor: "rgba(139, 90, 43, 0.45)" , xshift: 0}, // braun → heller
@@ -55,7 +55,7 @@ const nodes = [
   { name: "Ind Heat",   color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" , xshift: -xshiftlocal}, // rot → heller
 
   // Export
-  { name: "Export", color: "#bdbdbd", linkColor: "rgba(189, 189, 189, 0.45)" , xshift: 0}, // hellgrau → heller
+  { name: "Electr. Export", color: "#bdbdbd", linkColor: "rgba(189, 189, 189, 0.45)" , xshift: 0}, // hellgrau → heller
 
   // End consumers – blau
   { name: "Households", color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" , xshift: -xshiftlocal}, // blau → heller
@@ -179,7 +179,7 @@ const linkDefs = [
   { source: "Power Plant", target: "Loss", key: "PowerPlantToLoss", label: "Power Plant → Loss", values: PowerPlantToLoss },
   { source: "Wind", target: "Electricity", key: "WindToElectricity", label: "Wind → Electricity", values: WindToElectricity },
   { source: "Photovoltaic", target: "Electricity", key: "SolarToElectricity", label: "Photovoltaic → Electricity", values: SolarToElectricity },
-  { source: "Import", target: "Electricity", key: "ImportToElectricity", label: "Import → Electricity", values: ImportToElectricity },
+  { source: "Electr. Import", target: "Electricity", key: "ImportToElectricity", label: "Import → Electricity", values: ImportToElectricity },
 
   // Mobility
   { source: "Gasoline", target: "Mobility", key: "GasolineToMobility", label: "Gasoline → Mobility", values: GasolineToMobility },
@@ -208,5 +208,5 @@ const linkDefs = [
   { source: "Electricity", target: "Heat Pumps", key: "ElectricityToHP", label: "Electricity → Heat Pumps", values: ElectricityToHP },
   { source: "Electricity", target: "Heat", key: "ElectricityToHeat", label: "Electricity → Heat", values: ElectricityToHeat },
   { source: "Electricity", target: "Mobility", key: "ElectricityToMobility", label: "Electricity → Mobility", values: ElectricityToMobility },
-  { source: "Electricity", target: "Export", key: "ElectricityToExport", label: "Electricity → Export", values: ElectricityToExport }
+  { source: "Electricity", target: "Electr. Export", key: "ElectricityToExport", label: "Electricity → Export", values: ElectricityToExport }
 ];

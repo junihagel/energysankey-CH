@@ -154,7 +154,7 @@
 		/* Controls wieder nebeneinander */
 .accordion-controls {
   display: flex;
-  gap: 40px;
+  gap: 10px;
   flex-wrap: wrap;
   align-items: flex-start;
 }
@@ -196,7 +196,7 @@
 /* Inhalt */
 .group-content {
   display: none;
-  padding: 12px 14px;
+  padding: 6px 7px;
   font-size: 14px;
   line-height: 1.5;
 }
