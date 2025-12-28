@@ -161,7 +161,7 @@
 
 /* Jede Gruppe wie vorher eine Spalte */
 .group {
-  width: 200px;           /* fix wie Spalte */
+  width: 190px;           /* fix wie Spalte */
   border: 1px solid #e5e5e5;
   border-radius: 6px;
   background: #ffffff;
