@@ -67,6 +67,11 @@
 			<div style="margin-top:10px; margin-bottom:10px">
 				<button id="saveSankeySVG">Save Chart as SVG</button>
 			</div>
+			<div>
+				 Data sources:
+				<a href="https://www.bfe.admin.ch/bfe/en/home/supply/statistics-and-geodata/energy-statistics/overall-energy-statistics.html" target="_blank">Overall Energy Statistics of Switzerland, SFOE</a>; 
+				<a href="https://www.bfe.admin.ch/bfe/en/home/supply/statistics-and-geodata/energy-statistics/analysis-of-energy-consumption-by-specific-use.html" target="_blank">Analysis of Energy Consumption by Specific Use, Prognos AG for SFOE</a>
+			</div>
 			
 		</div>
 
@@ -184,28 +189,54 @@
 
 
 
-			  <svg id="lineChart" ></svg>
+			<svg id="lineChart" ></svg>
 			  
-				<div style="margin-top:10px; margin-bottom:10px">
-					<button id="saveSVG">Save Chart as SVG</button>
-				</div>
+			<div style="margin-top:10px; margin-bottom:10px">
+				<button id="saveSVG">Save Chart as SVG</button>
+			</div>
+			<div>
+				 Data sources:
+				<a href="https://www.bfe.admin.ch/bfe/en/home/supply/statistics-and-geodata/energy-statistics/overall-energy-statistics.html" target="_blank">Overall Energy Statistics of Switzerland, SFOE</a>; 
+				<a href="https://www.bfe.admin.ch/bfe/en/home/supply/statistics-and-geodata/energy-statistics/analysis-of-energy-consumption-by-specific-use.html" target="_blank">Analysis of Energy Consumption by Specific Use, Prognos AG for SFOE</a>
+			</div>
 		  
 		</div>
 
 	</main>
 
 	<footer>
-		<div class="data-sources">
-			Data Sources:<br>
-		  <a href="https://www.bfe.admin.ch/bfe/en/home/supply/statistics-and-geodata/energy-statistics/overall-energy-statistics.html" target="_blank">Overall Energy Statistics of Switzerland, SFOE</a><br>
-		  <a href="https://www.bfe.admin.ch/bfe/en/home/supply/statistics-and-geodata/energy-statistics/analysis-of-energy-consumption-by-specific-use.html" target="_blank">Analysis of Energy Consumption by Specific Use, Prognos AG for SFOE</a>
+
+		<div>
+			© 2025 Michel Haller | <a href="privacy.html">Privacy Policy</a> I <a href="disclaimer.html">Disclaimer</a>
 		</div>
-		<small>© 2025 Michel Haller</small>
 	</footer>
  
 	<script src="./js/data.js"></script>
 	<script src="./js/code.js"></script>
 
+
+
+	<!-- TWIPLA Tracking Code for www.energysankey.ch -->
+	 <script>
+	 	(
+			function(v,i,s,a,t){
+				v[t]=v[t]||function(){(v[t].v=v[t].v||[]).push(arguments)};
+				if(!v._visaSettings){
+					v._visaSettings={}
+					}
+				v._visaSettings[a]={v:'1.0',s:a,a:'1',t:t};
+				var b=i.getElementsByTagName('body')[0];
+				var p=i.createElement('script');
+				p.defer=1;
+				p.async=1;
+				p.src=s+'?s='+a;
+				b.appendChild(p)
+			}
+		)
+		(
+			window,document,'//app-worker.visitor-analytics.io/main.js','7d888a42-e495-11f0-84e1-960004340fd3','va'
+		)
+	</script><!-- TWIPLA Tracking Code for www.energysankey.ch -->
 </body>
 </html>
 

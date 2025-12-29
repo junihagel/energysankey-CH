@@ -41,9 +41,10 @@ const conversionOrder = [
   "Boilers",
   "CHP",
   "Electricity",
-  "District Heat",
   "Heat Pumps",
+  "District Heat",
   "Heat"
+  
 ];
 const conversionRank = new Map(conversionOrder.map((d,i)=>[d,i]));
 
@@ -196,8 +197,6 @@ function draw(year) {
     .extent([[0, 0], [width, sankeyHeight]]);
 
 
-  
-
   let links = linksForYear(year);
 
   if (netMode) {
@@ -205,8 +204,6 @@ function draw(year) {
   }
 
   
-
-
   const graph = sankey({
     nodes: nodes.map(d => ({ ...d })),
     links: links
