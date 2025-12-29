@@ -9,7 +9,7 @@ const nodes = [
   { name: "Natural Gas", color: "#4b2e2b", linkColor: "rgba(75, 46, 43, 0.45)", xshift: 0}, // dunkelbraun → heller
 
   // Biomasse & Abfall
-  { name: "Wood",  color: "#2e7d32", linkColor: "rgba(46, 125, 50, 0.45)", xshift: xshiftlocal}, // grün → heller
+  { name: "Wood",  color: "#2db333ff", linkColor: "rgba(51, 169, 57, 0.67)", xshift: xshiftlocal}, // grün → heller
   { name: "Waste", color: "#9e9e9e", linkColor: "rgba(158, 158, 158, 0.45)", xshift: xshiftlocal}, // grau → heller
 
   // Ambient Heat & Solar Thermal – gelb
@@ -42,7 +42,7 @@ const nodes = [
 
   // Heat pump & mobility
   { name: "Heat Pumps", color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" , xshift: 0}, // rot → heller
-  { name: "Mobility",   color: "#8b5a2b", linkColor: "rgba(139, 90, 43, 0.45)" , xshift: +150}, // braun → heller
+  { name: "Mobility",   color: "#2e8b57", linkColor: "rgba(46, 139, 87, 0.45)" , xshift: +150}, // braun → heller
 
   // District heat / heat / loss
   { name: "District Heat", color: "#d62728", linkColor: "rgba(214, 39, 40, 0.45)" , xshift: 0}, // rot → heller
@@ -63,9 +63,9 @@ const nodes = [
   { name: "Industry",   color: "#1f77b4", linkColor: "rgba(31, 119, 180, 0.45)" , xshift: -xshiftlocal}, // blau → heller
 
   // Transport modes – hellbraun
-  { name: "Road",     color: "#D2B48C", linkColor: "rgba(210, 180, 140, 0.45)" , xshift: -xshiftlocal}, // hellbraun → heller
-  { name: "Rail",     color: "#D2B48C", linkColor: "rgba(210, 180, 140, 0.45)" , xshift: -xshiftlocal}, // hellbraun → heller
-  { name: "Aviation", color: "#D2B48C", linkColor: "rgba(210, 180, 140, 0.45)" , xshift: -xshiftlocal/2}  // hellbraun → heller
+  { name: "Road",     color: "#2e8b57", linkColor: "rgba(46, 139, 87, 0.45)" , xshift: -xshiftlocal}, // hellbraun → heller
+  { name: "Rail",     color: "#2e8b57", linkColor: "rgba(46, 139, 87, 0.45)" , xshift: -xshiftlocal}, // hellbraun → heller
+  { name: "Aviation", color: "#2e8b57", linkColor: "rgba(46, 139, 87, 0.45)" , xshift: -xshiftlocal/2}  // hellbraun → heller
 ];
 
 
