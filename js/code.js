@@ -30,7 +30,7 @@ const inputOrder = [
   "Hydro Dams",
   "Photovoltaic",
   "Wind",
-  "Import",
+  "Electr. Import",
   "Gasoline",
   "Diesel",
   "Jet fuel"
@@ -54,7 +54,7 @@ const outputOrder = [
   "Hot Water",
   "Ind Heat",
   "Loss",
-  "Export",
+  "Electr. Export",
   "Households",
   "Services",
   "Industry",
@@ -312,7 +312,7 @@ function draw(year) {
 
   // hide nodes of import / export if the value is 0
   graph.nodes.forEach(n => {
-    if (n.name === "Import" || n.name === "Export") {
+    if (n.name === "Electr. Import" || n.name === "Electr. Export") {
         const totalValue = d3.sum(n.sourceLinks, l => l.value) + d3.sum(n.targetLinks, l => l.value);
         const hide = netMode && totalValue === 0;
 
@@ -346,15 +346,15 @@ function applyNetImportExport(links) {
 
   // Identify import/export links
   links.forEach(l => {
-    if (l.source === "Import") importSum += l.value;
-    if (l.target === "Export") exportSum += l.value;
+    if (l.source === "Electr. Import") importSum += l.value;
+    if (l.target === "Electr. Export") exportSum += l.value;
   });
 
   const net = importSum - exportSum;
 
   return links.map(l => {
     // Import links
-    if (l.source === "Import") {
+    if (l.source === "Electr. Import") {
       return {
         ...l,
         value: net > 0 ? l.value * (net / importSum) : 0
@@ -362,7 +362,7 @@ function applyNetImportExport(links) {
     }
 
     // Export links
-    if (l.target === "Export") {
+    if (l.target === "Electr. Export") {
       return {
         ...l,
         value: net < 0 ? l.value * (-net / exportSum) : 0
