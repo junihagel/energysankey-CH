@@ -8,11 +8,16 @@
 	flex-direction: column;
 	min-height: 100vh; /* Ganzseitig */
 	}
+  
   main {
 	flex: 1; /* nimmt den restlichen Platz ein */
 	}
   footer {
 	flex-shrink: 0;
+  }
+
+  h1 {
+    font-size: 20px;
   }
 
   .data-sources {
@@ -34,7 +39,7 @@
     cursor: pointer;
     background: none;
     border: none;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: #666;
     position: relative;
@@ -85,17 +90,19 @@
 
 
 /* Canvas / SVG Bereich */
-  canvas {
+   canvas {
     max-width: 100%;
-  }
-
-  svg {
+    max-height: auto;
+  } 
+    
+    svg {
     width: 100%;
     height: auto; 
     background-color: #fafafa;
     border-radius: 6px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   }
+    
 
     .sankey-title {
       text-anchor: middle;

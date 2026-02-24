@@ -310,24 +310,7 @@ function draw(year) {
     .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
     .text(d => d.name);
 
-  // hide nodes of import / export if the value is 0
-  graph.nodes.forEach(n => {
-    if (n.name === "Electr. Import" || n.name === "Electr. Export") {
-        const totalValue = d3.sum(n.sourceLinks, l => l.value) + d3.sum(n.targetLinks, l => l.value);
-        const hide = netMode && totalValue === 0;
-
-        // Select the node group and hide its rect and text
-        const nodeGroup = sankeyGroup.selectAll(".node")
-            .filter(d => d.name === n.name);
-        nodeGroup.select("rect").style("display", hide ? "none" : "");
-        nodeGroup.select("text").style("display", hide ? "none" : "");
-
-        // Hide all connected links
-        sankeyGroup.selectAll(".link")
-            .filter(l => l.source.name === n.name || l.target.name === n.name)
-            .style("display", hide ? "none" : "");
-    }
-  });
+ 
 
   // ===== copyright information =====
   svg.append("text")
